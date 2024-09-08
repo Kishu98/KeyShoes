@@ -1,21 +1,20 @@
 package main
 
 import (
-	db "blog-site/internals"
+	db "blog-site/internals/database"
 	"blog-site/internals/handlers"
-	"log"
 	"net/http"
 )
 
 func main() {
-
+	// Connecting to the database
 	db.ConnectDB()
 
-	http.HandleFunc("/blogs", handlers.HandleBlogs)
-	http.HandleFunc("/blogs/", handlers.HandleBlog)
+	// Routes for this app
+	http.HandleFunc("/blog", handlers.HandleBlogs)
+	http.HandleFunc("/blog/", handlers.HandleBlog)
 
-	log.Println("Server starting on port 8080...")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
-		log.Fatalf("Could not start server: %s\n", err.Error())
-	}
+	// Server listening at port :8080
+	http.ListenAndServe(":8080", nil)
+
 }
