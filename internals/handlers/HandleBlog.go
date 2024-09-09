@@ -12,6 +12,7 @@ import (
 
 // Main handler function
 func HandleBlogs(w http.ResponseWriter, r *http.Request) {
+	checkEnableCORS(w)
 	switch r.Method {
 	case http.MethodPost:
 		createBlogHandler(w, r)
@@ -22,6 +23,7 @@ func HandleBlogs(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleBlog(w http.ResponseWriter, r *http.Request) {
+	checkEnableCORS(w)
 	switch r.Method {
 	case http.MethodPut:
 		updateBlogHandler(w, r)
@@ -100,4 +102,10 @@ func jsonResponse(w http.ResponseWriter, statusCode int, data any) {
 	if err := json.NewEncoder(w).Encode(data); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+func checkEnableCORS(w http.ResponseWriter) {
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 }
