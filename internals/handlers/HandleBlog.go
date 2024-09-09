@@ -43,8 +43,7 @@ func createBlogHandler(w http.ResponseWriter, r *http.Request) {
 	blog = models.CreateBlog(db.GetDB(), blog)
 
 	// Sending back the new Blog as response
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(&blog)
+	jsonResponse(w, http.StatusCreated, blog)
 
 }
 
@@ -52,8 +51,7 @@ func createBlogHandler(w http.ResponseWriter, r *http.Request) {
 func getAllBlogsHandler(w http.ResponseWriter, r *http.Request) {
 	blogs := models.GetAllBlogs(db.GetDB())
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(&blogs)
+	jsonResponse(w, http.StatusOK, blogs)
 }
 
 // handler function to update blog
@@ -68,8 +66,7 @@ func updateBlogHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	blog = models.UpdateBlog(db.GetDB(), id, blog)
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(&blog)
+	jsonResponse(w, http.StatusNoContent, blog)
 }
 
 // handler function to get blog by id
@@ -81,8 +78,7 @@ func getBlogHandler(w http.ResponseWriter, r *http.Request) {
 
 	blog := models.GetBlog(db.GetDB(), id)
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(&blog)
+	jsonResponse(w, http.StatusOK, blog)
 }
 
 func deleteBlogHandler(w http.ResponseWriter, r *http.Request) {
@@ -94,6 +90,14 @@ func deleteBlogHandler(w http.ResponseWriter, r *http.Request) {
 	blog := models.GetBlog(db.GetDB(), id)
 	models.DeleteBlog(db.GetDB(), id)
 
+	jsonResponse(w, http.StatusNoContent, blog)
+}
+
+func jsonResponse(w http.ResponseWriter, statusCode int, data any) {
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(&blog)
+	w.WriteHeader(statusCode)
+
+	if err := json.NewEncoder(w).Encode(data); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
