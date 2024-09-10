@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./BlogForm.css";
 
 export default function BlogForm() {
   const [blogList, setBlogList] = useState([]);
@@ -6,6 +7,8 @@ export default function BlogForm() {
     title: "",
     body: "",
   });
+
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     async function getData() {
@@ -20,9 +23,9 @@ export default function BlogForm() {
     }
 
     getData();
-  }, []);
+  }, [reload]);
 
-  const handleSubmit = async (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
     let res = await fetch("http://localhost:8080/blog", {
       method: "POST",
@@ -31,7 +34,11 @@ export default function BlogForm() {
       },
       body: JSON.stringify(formData),
     });
-  };
+
+    setReload(!reload);
+    // setBlogList((blog) => [...blog, formData]);
+    // console.log(blogList);
+  }
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -41,11 +48,20 @@ export default function BlogForm() {
     });
   }
 
+  async function handleDelete(e) {
+    e.preventDefault();
+    let id = e.target.id;
+    let res = await fetch(`http://localhost:8080/blog/${id}`, {
+      method: "DELETE",
+    });
+    setReload(!reload);
+  }
+
   return (
     <>
       <div>
-        <form onSubmit={handleSubmit}>
-          <label>Title</label>
+        <form onSubmit={handleSubmit} method='POST'>
+          <label htmlFor='title'>Title</label>
           <input
             type='text'
             id='title'
@@ -54,24 +70,27 @@ export default function BlogForm() {
             onChange={handleChange}
             required
           ></input>
-          <label>Body</label>
-          <input
+          <label htmlFor='body'>Body</label>
+          <textarea
             type='text'
             id='body'
             name='body'
             value={formData.body}
             onChange={handleChange}
             required
-          ></input>
+          ></textarea>
 
           <button type='submit'>Submit</button>
         </form>
       </div>
-      <ul>
+      <ul className='blogs'>
         {blogList.map((blog) => (
-          <li id={blog.id}>
+          <li id={blog.id} className='blog'>
             <h2>{blog.title}</h2>
             <p>{blog.body}</p>
+            <button id={blog.id} onClick={handleDelete} className='deleteBtn'>
+              Delete
+            </button>
           </li>
         ))}
       </ul>
