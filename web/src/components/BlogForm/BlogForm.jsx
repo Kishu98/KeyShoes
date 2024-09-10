@@ -1,29 +1,21 @@
 import { useEffect, useState } from "react";
 import "./BlogForm.css";
+import { Blogs } from "../Blogs/Blogs";
 
 export default function BlogForm() {
-  const [blogList, setBlogList] = useState([]);
   const [formData, setFormData] = useState({
     title: "",
     body: "",
   });
-
   const [reload, setReload] = useState(false);
 
-  useEffect(() => {
-    async function getData() {
-      let res = await fetch("http://localhost:8080/blog");
-      if (res.ok) {
-        let blogs = await res.json();
-        setBlogList(blogs);
-        console.log(blogs);
-      } else {
-        alert("Error" + res.status);
-      }
-    }
-
-    getData();
-  }, [reload]);
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -38,23 +30,6 @@ export default function BlogForm() {
     setReload(!reload);
     // setBlogList((blog) => [...blog, formData]);
     // console.log(blogList);
-  }
-
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  }
-
-  async function handleDelete(e) {
-    e.preventDefault();
-    let id = e.target.id;
-    let res = await fetch(`http://localhost:8080/blog/${id}`, {
-      method: "DELETE",
-    });
-    setReload(!reload);
   }
 
   return (
@@ -83,17 +58,7 @@ export default function BlogForm() {
           <button type='submit'>Submit</button>
         </form>
       </div>
-      <ul className='blogs'>
-        {blogList.map((blog) => (
-          <li id={blog.id} className='blog'>
-            <h2>{blog.title}</h2>
-            <p>{blog.body}</p>
-            <button id={blog.id} onClick={handleDelete} className='deleteBtn'>
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+      <Blogs reload={reload} setReload={setReload} />
     </>
   );
 }
