@@ -32,7 +32,7 @@ export function Blogs({ reload, setReload }) {
       {blogList.map((blog) => (
         <li id={blog.id} className='blog'>
           <h2>{blog.title}</h2>
-          <p>{blog.body}</p>
+          <p dangerouslySetInnerHTML={{ __html: blog.body }}></p>
           <button id={blog.id} onClick={handleDelete} className='deleteBtn'>
             Delete
           </button>
