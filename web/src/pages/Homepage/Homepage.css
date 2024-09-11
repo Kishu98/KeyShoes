@@ -1,0 +1,13 @@
+nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+nav > h1 {
+    align-self: flex-start;
+}
+
+nav > Link {
+    align-self: flex-end;
+}
