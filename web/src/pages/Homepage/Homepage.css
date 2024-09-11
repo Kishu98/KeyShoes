@@ -1,13 +1,25 @@
-nav {
-    width: 100%;
-    display: flex;
-    align-items: center;
+.navBar {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 0 90px 0;
 }
 
-nav > h1 {
-    align-self: flex-start;
+.logo {
+  display: flex;
+  justify-content: flex-start;
 }
 
-nav > Link {
-    align-self: flex-end;
+.navLinks {
+  display: flex;
+  gap: 10px;
+}
+
+.navLinks > :not(:last-child)::after {
+  content: "/";
+  font-weight: 100;
+  margin: 0 0.5rem;
+  text-decoration: none;
+  display: inline-block;
+  color: var(--c-text-light);
+  opacity: 0.5;
 }

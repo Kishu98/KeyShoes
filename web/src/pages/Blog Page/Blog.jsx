@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import "./Blog.css";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function Blog() {
   const [blog, setBlog] = useState({});
+  const [time, setTime] = useState();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -12,7 +13,12 @@ export default function Blog() {
       let res = await fetch(`http://localhost:8080/blog/${id}`);
       if (res.ok) {
         let blog = await res.json();
-        console.log(blog);
+        // console.log(blog);
+        let newTime = new Date(blog.created_at);
+        console.log(newTime.toString());
+        console.log(newTime.toLocaleDateString());
+        console.log(newTime.toTimeString());
+        console.log(newTime.toLocaleString());
         setBlog(blog);
       } else {
         alert("Error");
@@ -26,16 +32,23 @@ export default function Blog() {
     await fetch(`http://localhost:8080/blog/${id}`, {
       method: "DELETE",
     });
-    navigate("/blogs");
+    navigate("/blogs", { replace: true });
   }
 
   return (
     <>
-      <h2>{blog.title}</h2>
-      <p dangerouslySetInnerHTML={{ __html: blog.body }}></p>
-      <button onClick={handleDelete} className='deleteBtn'>
-        Delete
-      </button>
+      <article className='blogContainer'>
+        <header>
+          <h1 className='title'>{blog.title}</h1>
+          <time dateTime={blog.created_at}>11-09-2024</time>
+        </header>
+        <div className='blogContent' dangerouslySetInnerHTML={{ __html: blog.body }}></div>
+        <footer>
+          <button className='deleteBtn' onClick={handleDelete}>
+            Delete
+          </button>
+        </footer>
+      </article>
     </>
   );
 }
