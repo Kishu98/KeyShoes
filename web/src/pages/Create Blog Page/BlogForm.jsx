@@ -5,7 +5,7 @@ import "react-quill/dist/quill.snow.css";
 
 const modules = {
   toolbar: [
-    ["bold", "italic", "underline", "strike"], // toggled buttons
+    ["bold", "italic", "underline", "strike", "code"], // toggled buttons
     ["blockquote", "code-block"],
     ["link", "image", "video", "formula"],
 
@@ -74,7 +74,14 @@ export default function BlogForm() {
           onChange={handleChange}
           required
         ></input>
-        <ReactQuill id='body' name='body' onChange={handleChange} theme='snow' modules={modules}></ReactQuill>
+        <ReactQuill
+          id='body'
+          name='body'
+          value={formData.body}
+          onChange={handleChange}
+          theme='snow'
+          modules={modules}
+        ></ReactQuill>
         <button type='submit'>Submit</button>
       </form>
     </>

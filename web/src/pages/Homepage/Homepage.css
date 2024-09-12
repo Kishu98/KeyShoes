@@ -1,17 +1,11 @@
 .navBar {
-  display: flex;
-  justify-content: space-between;
-  margin: 30px 0 90px 0;
+  padding: 30px 0;
+  margin-bottom: 60px;
 }
 
 .logo {
   display: flex;
   justify-content: flex-start;
-}
-
-.navLinks {
-  display: flex;
-  gap: 10px;
 }
 
 .navLinks > :not(:last-child)::after {

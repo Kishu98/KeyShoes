@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Blog from "../Blog Page/Blog";
 import "./Blogs.css";
-import BlogForm from "../Create Blog Page/BlogForm";
 
 export default function Blogs() {
   const [blogList, setBlogList] = useState([]);
-  // const [reload, setReload] = useState(false);
+  const [date, setDate] = useState([]);
 
   useEffect(() => {
     async function getData() {
@@ -26,8 +24,9 @@ export default function Blogs() {
       {blogList ? (
         <ul className='bloglist'>
           {blogList.map((blog) => (
-            <li>
+            <li key={blog.id}>
               <Link to={`${blog.id}`}>{blog.title}</Link>
+              <time className='time'>{new Date(blog.created_at).toLocaleDateString()}</time>
             </li>
           ))}
         </ul>

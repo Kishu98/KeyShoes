@@ -3,7 +3,7 @@ import "./Homepage.css";
 
 export default function HomePage() {
   return (
-    <div className='container'>
+    <>
       <nav className='navBar'>
         <div className='navLinks'>
           <Link to='/'>KeyShoe's Blog</Link>
@@ -13,6 +13,6 @@ export default function HomePage() {
         </div>
       </nav>
       <Outlet />
-    </div>
+    </>
   );
 }

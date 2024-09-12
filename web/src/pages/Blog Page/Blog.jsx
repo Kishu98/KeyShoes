@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export default function Blog() {
   const [blog, setBlog] = useState({});
-  const [time, setTime] = useState();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -13,12 +12,6 @@ export default function Blog() {
       let res = await fetch(`http://localhost:8080/blog/${id}`);
       if (res.ok) {
         let blog = await res.json();
-        // console.log(blog);
-        let newTime = new Date(blog.created_at);
-        console.log(newTime.toString());
-        console.log(newTime.toLocaleDateString());
-        console.log(newTime.toTimeString());
-        console.log(newTime.toLocaleString());
         setBlog(blog);
       } else {
         alert("Error");
@@ -40,7 +33,7 @@ export default function Blog() {
       <article className='blogContainer'>
         <header>
           <h1 className='title'>{blog.title}</h1>
-          <time dateTime={blog.created_at}>11-09-2024</time>
+          <time dateTime={blog.created_at}>{new Date(blog.created_at).toLocaleDateString()}</time>
         </header>
         <div className='blogContent' dangerouslySetInnerHTML={{ __html: blog.body }}></div>
         <footer>
