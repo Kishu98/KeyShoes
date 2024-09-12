@@ -1,9 +1,8 @@
-ul {
+.bloglist {
   padding: 0;
-  list-style-type: none;
 }
 
-li {
+.bloglist > li {
   display: flex;
   justify-content: space-between;
   align-items: center;

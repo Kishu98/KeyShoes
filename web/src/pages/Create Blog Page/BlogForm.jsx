@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./BlogForm.css";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const modules = {
   toolbar: [
@@ -27,39 +28,67 @@ const modules = {
 };
 
 export default function BlogForm() {
-  const initialState = {
-    title: "",
-    body: "",
-  };
+  const [formMethod, setFormMethod] = useState("POST");
+  const [formData, setFormData] = useState({ title: "", body: "" });
+  const [blogID, setBlogID] = useState();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const [formData, setFormData] = useState(initialState);
+  let lid;
 
-  function handleChange(e) {
-    if (e.target) {
-      const { name, value } = e.target;
-      setFormData({
-        ...formData,
-        title: e.target.value,
-      });
-    } else {
-      setFormData({
-        ...formData,
-        body: e,
-      });
-    }
+  useEffect(() => {
+    const { title = "", body = "", method = "POST", id } = location.state || {};
+    setBlogID(id);
+
+    setFormData((prevData) => ({
+      ...prevData,
+      title,
+      body,
+    }));
+
+    setFormMethod(method);
+    console.log("Reloaded");
+  }, []);
+
+  function handleTitleChange(e) {
+    setFormData((prevData) => ({
+      ...prevData,
+      title: e.target.value,
+    }));
+  }
+
+  function handleBodyChange(content) {
+    setFormData((prevData) => ({
+      ...prevData,
+      body: content,
+    }));
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
-    await fetch("http://localhost:8080/blog", {
-      method: "POST",
+    let url = formMethod === "PUT" ? `http://localhost:8080/blog/${blogID}` : "http://localhost:8080/blog";
+    await fetch(url, {
+      method: formMethod,
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
     });
-    alert("Post created!");
-    setFormData(initialState);
+    formMethod === "PUT" ? alert("Blog Updated!") : alert("Blog Created");
+    setFormData({ title: "", body: "" });
+    if (formMethod === "PUT") {
+      navigate(-1);
+    }
+  }
+
+  function handleClear(e) {
+    e.preventDefault();
+    setFormData({ title: "", body: "" });
+  }
+
+  function handleCancel(e) {
+    e.preventDefault();
+    navigate(-1);
   }
 
   return (
@@ -71,18 +100,25 @@ export default function BlogForm() {
           id='title'
           name='title'
           value={formData.title}
-          onChange={handleChange}
+          onChange={handleTitleChange}
           required
         ></input>
         <ReactQuill
           id='body'
           name='body'
           value={formData.body}
-          onChange={handleChange}
+          onChange={handleBodyChange}
           theme='snow'
           modules={modules}
         ></ReactQuill>
-        <button type='submit'>Submit</button>
+        <footer>
+          <button type='submit'>{formMethod === "PUT" ? "Update" : "Submit"}</button>
+          {formMethod === "PUT" ? (
+            <button onClick={handleCancel}>Cancel</button>
+          ) : (
+            <button onClick={handleClear}>Clear</button>
+          )}
+        </footer>
       </form>
     </>
   );

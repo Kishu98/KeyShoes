@@ -21,11 +21,14 @@ export default function Blog() {
   }, []);
 
   async function handleDelete(e) {
-    e.preventDefault();
     await fetch(`http://localhost:8080/blog/${id}`, {
       method: "DELETE",
     });
     navigate("/blogs", { replace: true });
+  }
+
+  async function handleUpdate(e) {
+    navigate("/blogform", { state: { body: blog.body, title: blog.title, method: "PUT", id: id } });
   }
 
   return (
@@ -39,6 +42,9 @@ export default function Blog() {
         <footer>
           <button className='deleteBtn' onClick={handleDelete}>
             Delete
+          </button>
+          <button className='updateBtn' onClick={handleUpdate}>
+            Update
           </button>
         </footer>
       </article>

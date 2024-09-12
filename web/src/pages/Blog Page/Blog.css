@@ -18,3 +18,12 @@ time {
 .deleteBtn {
   background-color: crimson;
 }
+
+.updateBtn {
+  background-color: darkgoldenrod;
+}
+
+footer {
+  display: flex;
+  justify-content: space-around;
+}
