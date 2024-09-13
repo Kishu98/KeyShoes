@@ -1,0 +1,19 @@
+.navBar {
+  padding: 30px 0;
+  margin-bottom: 60px;
+}
+
+.logo {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.navLinks > :not(:last-child)::after {
+  content: "/";
+  font-weight: 100;
+  margin: 0 0.5rem;
+  text-decoration: none;
+  display: inline-block;
+  color: var(--c-text-light);
+  opacity: 0.5;
+}

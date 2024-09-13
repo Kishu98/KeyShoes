@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
-import "./BlogForm.css";
+import { useState } from "react";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import { Form, useLocation, useNavigate } from "react-router-dom";
+import { Form, useLoaderData } from "react-router-dom";
+import "./UpdateBlogPage.css";
 
 const modules = {
   toolbar: [
@@ -27,21 +26,23 @@ const modules = {
   ],
 };
 
-export default function BlogForm() {
+export default function UpdateBlogPage() {
   const [quillValue, setQuillValue] = useState("");
+  const blog = useLoaderData();
 
-  function handleBodyChange(content) {
-    setQuillValue(content);
+  function handleChange(e) {
+    setQuillValue(e);
   }
 
   return (
     <>
-      <Form method='POST' className='createBlogForm'>
+      <Form method='PUT' state={quillValue} className='updateBlogForm'>
         <label htmlFor='title'>Title</label>
-        <input type='text' id='title' name='title' required></input>
-        <ReactQuill onChange={handleBodyChange} theme='snow' modules={modules} />
-        <input id='body' name='body' value={quillValue} hidden></input>
-        <button type='submit'>Post</button>
+        <input type='text' id='title' name='title' defaultValue={blog.title} required></input>
+        <ReactQuill defaultValue={blog.body} onChange={handleChange} theme='snow' modules={modules} />
+        {/* Hidden input to pass value of react quill to the Form function's action */}
+        <input name='body' id='body' value={quillValue} hidden></input>
+        <button type='submit'>Update</button>
       </Form>
     </>
   );

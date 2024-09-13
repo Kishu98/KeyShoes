@@ -1,23 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import "./Blogs.css";
 
 export default function Blogs() {
-  const [blogList, setBlogList] = useState([]);
-  const [date, setDate] = useState([]);
-
-  useEffect(() => {
-    async function getData() {
-      let res = await fetch("http://localhost:8080/blog");
-      if (res.ok) {
-        let blogs = await res.json();
-        setBlogList(blogs);
-      } else {
-        alert("Error" + res.status);
-      }
-    }
-    getData();
-  }, []);
+  const blogList = useLoaderData();
 
   return (
     <>

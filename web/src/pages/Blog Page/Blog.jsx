@@ -1,34 +1,13 @@
-import { useEffect, useState } from "react";
 import "./Blog.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { Form, useLoaderData, useNavigate, useParams } from "react-router-dom";
 
 export default function Blog() {
-  const [blog, setBlog] = useState({});
   const { id } = useParams();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    async function getBlog() {
-      let res = await fetch(`http://localhost:8080/blog/${id}`);
-      if (res.ok) {
-        let blog = await res.json();
-        setBlog(blog);
-      } else {
-        alert("Error");
-      }
-    }
-    getBlog();
-  }, []);
-
-  async function handleDelete(e) {
-    await fetch(`http://localhost:8080/blog/${id}`, {
-      method: "DELETE",
-    });
-    navigate("/blogs", { replace: true });
-  }
+  const blog = useLoaderData();
 
   async function handleUpdate(e) {
-    navigate("/blogform", { state: { body: blog.body, title: blog.title, method: "PUT", id: id } });
+    navigate(`/blogs/${id}/update`);
   }
 
   return (
@@ -40,9 +19,11 @@ export default function Blog() {
         </header>
         <div className='blogContent' dangerouslySetInnerHTML={{ __html: blog.body }}></div>
         <footer>
-          <button className='deleteBtn' onClick={handleDelete}>
-            Delete
-          </button>
+          <Form method='delete'>
+            <button className='deleteBtn' type='submit'>
+              Delete
+            </button>
+          </Form>
           <button className='updateBtn' onClick={handleUpdate}>
             Update
           </button>
