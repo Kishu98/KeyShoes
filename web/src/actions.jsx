@@ -1,11 +1,10 @@
-import { redirect, useLocation } from "react-router-dom";
+import { redirect } from "react-router-dom";
 
 export async function action({ request, params }) {
   let formData = await request.formData();
   let title = formData.get("title");
   let body = formData.get("body");
-  console.log(title);
-  console.log(body);
+  const token = localStorage.getItem("token");
 
   switch (request.method) {
     case "POST": {
@@ -13,6 +12,7 @@ export async function action({ request, params }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ title, body }),
       });
@@ -24,19 +24,44 @@ export async function action({ request, params }) {
         method: "PUT",
         headers: {
           "Content-Type": "appication/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ title, body }),
       });
 
-      return redirect(`/blogs/${params.id}`);
+      return redirect(`/dashboard`);
     }
 
     case "DELETE": {
       await fetch(`http://localhost:8080/blog/${params.id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
-      return redirect("/blogs", { replace: true });
+      return redirect("/dashboard", { replace: true });
     }
+  }
+}
+
+export async function loginAction({ request }) {
+  let formData = await request.formData();
+  let username = formData.get("username");
+  let password = formData.get("password");
+  const res = await fetch("http://localhost:8080/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, password }),
+  });
+  if (res.ok) {
+    const data = await res.json();
+    localStorage.setItem("token", data.token);
+    return redirect("/dashboard", { replace: true });
+  } else {
+    alert("Wrong Username or Password");
+    return redirect("/login");
   }
 }

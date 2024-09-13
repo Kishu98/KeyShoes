@@ -1,7 +1,7 @@
 import "./Blog.css";
 import { Form, useLoaderData, useNavigate, useParams } from "react-router-dom";
 
-export default function Blog() {
+export default function Blog({ newBlog }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const blog = useLoaderData();
@@ -18,16 +18,6 @@ export default function Blog() {
           <time dateTime={blog.created_at}>{new Date(blog.created_at).toLocaleDateString()}</time>
         </header>
         <div className='blogContent' dangerouslySetInnerHTML={{ __html: blog.body }}></div>
-        <footer>
-          <Form method='delete'>
-            <button className='deleteBtn' type='submit'>
-              Delete
-            </button>
-          </Form>
-          <button className='updateBtn' onClick={handleUpdate}>
-            Update
-          </button>
-        </footer>
       </article>
     </>
   );

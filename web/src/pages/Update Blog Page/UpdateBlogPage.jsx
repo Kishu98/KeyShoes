@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ReactQuill from "react-quill";
-import { Form, useLoaderData } from "react-router-dom";
+import { Form, useLoaderData, useNavigate } from "react-router-dom";
 import "./UpdateBlogPage.css";
 
 const modules = {
@@ -27,11 +27,17 @@ const modules = {
 };
 
 export default function UpdateBlogPage() {
-  const [quillValue, setQuillValue] = useState("");
   const blog = useLoaderData();
+  const navigate = useNavigate();
+  const [quillValue, setQuillValue] = useState(blog.body);
 
   function handleChange(e) {
     setQuillValue(e);
+  }
+
+  function handleCancel(e) {
+    e.preventDefault();
+    navigate(-1);
   }
 
   return (
@@ -41,8 +47,9 @@ export default function UpdateBlogPage() {
         <input type='text' id='title' name='title' defaultValue={blog.title} required></input>
         <ReactQuill defaultValue={blog.body} onChange={handleChange} theme='snow' modules={modules} />
         {/* Hidden input to pass value of react quill to the Form function's action */}
-        <input name='body' id='body' value={quillValue} hidden></input>
+        <input name='body' id='body' defaultValue={blog.body} value={quillValue} hidden></input>
         <button type='submit'>Update</button>
+        <button onClick={handleCancel}>Cancel</button>
       </Form>
     </>
   );

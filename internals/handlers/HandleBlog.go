@@ -2,6 +2,7 @@ package handlers
 
 import (
 	db "blog-site/internals/database"
+	"blog-site/internals/middleware"
 	"blog-site/internals/models"
 	"encoding/json"
 	"log"
@@ -15,10 +16,9 @@ func HandleBlogs(w http.ResponseWriter, r *http.Request) {
 	checkEnableCORS(w)
 	switch r.Method {
 	case http.MethodPost:
-		createBlogHandler(w, r)
+		middleware.JWTMiddleware(http.HandlerFunc(createBlogHandler)).ServeHTTP(w, r)
 	case http.MethodGet:
 		getAllBlogsHandler(w, r)
-
 	}
 }
 
@@ -26,11 +26,11 @@ func HandleBlog(w http.ResponseWriter, r *http.Request) {
 	checkEnableCORS(w)
 	switch r.Method {
 	case http.MethodPut:
-		updateBlogHandler(w, r)
+		middleware.JWTMiddleware(http.HandlerFunc(updateBlogHandler)).ServeHTTP(w, r)
 	case http.MethodGet:
 		getBlogHandler(w, r)
 	case http.MethodDelete:
-		deleteBlogHandler(w, r)
+		middleware.JWTMiddleware(http.HandlerFunc(deleteBlogHandler)).ServeHTTP(w, r)
 	}
 }
 
