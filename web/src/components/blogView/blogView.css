@@ -1,0 +1,10 @@
+.dashBlogListItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashViewForm {
+  display: flex;
+  justify-content: space-evenly;
+}

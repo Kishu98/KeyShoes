@@ -1,6 +1,6 @@
-import { Link, Outlet, useLoaderData, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import { BlogView } from "../../components/blogView/BlogView";
+import "./Dashboard.css";
 
 export default function Dashboard() {
   const blogs = useLoaderData();
@@ -10,10 +10,13 @@ export default function Dashboard() {
   return (
     <>
       <article>
-        <header>
+        <header className='dashHead'>
           <h1>Dashboard</h1>
+          <button className='createBtn' onClick={() => navigate("create")}>
+            Create Post
+          </button>
         </header>
-        <button onClick={() => navigate("create")}>Create Post</button>
+
         {blogs ? (
           <ul className='blogs'>
             {blogs.map((blog) => (
@@ -24,7 +27,6 @@ export default function Dashboard() {
           <p>No Blogs</p>
         )}
       </article>
-      <Outlet />
     </>
   );
 }

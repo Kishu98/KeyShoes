@@ -1,0 +1,16 @@
+.dashHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.createBtn {
+  background-color: green;
+  height: 40%;
+  padding: 0.7rem;
+}
+
+.blogs {
+  padding: 0;
+  list-style-type: none;
+}

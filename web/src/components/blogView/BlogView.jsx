@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Form, Link, useNavigate } from "react-router-dom";
-import Blog from "../../pages/Blog Page/Blog";
+import "./blogView.css";
 
 export function BlogView({ blog }) {
   const [view, setView] = useState(false);
@@ -11,8 +11,10 @@ export function BlogView({ blog }) {
   return (
     <>
       <li key={blog.id}>
-        <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-        <button onClick={handleView}>View</button>
+        <div className='dashBlogListItem'>
+          <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+          <button onClick={handleView}>View</button>
+        </div>
         {view && <BlogCheck blog={blog} />}
       </li>
     </>
@@ -28,14 +30,16 @@ function BlogCheck({ blog }) {
 
   return (
     <article className='blogContainer'>
-      <Form method='delete' action={`${blog.id}`}>
-        <button className='deleteBtn' type='submit'>
-          Delete
+      <section className='dashViewForm'>
+        <Form method='delete' action={`${blog.id}`}>
+          <button className='deleteBtn' type='submit'>
+            Delete
+          </button>
+        </Form>
+        <button className='updateBtn' onClick={handleUpdate}>
+          Update
         </button>
-      </Form>
-      <button className='updateBtn' onClick={handleUpdate}>
-        Update
-      </button>
+      </section>
       <div className='blogContent' dangerouslySetInnerHTML={{ __html: blog.body }}></div>
     </article>
   );
