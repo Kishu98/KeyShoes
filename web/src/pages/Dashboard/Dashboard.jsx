@@ -1,11 +1,8 @@
-import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
-import { BlogView } from "../../components/blogView/BlogView";
+import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 import DashPageList from "../../components/DashPageList/DashPageList";
 
 export default function Dashboard() {
-  const blogs = useLoaderData();
-  console.log(blogs);
   const navigate = useNavigate();
 
   return (

@@ -2,7 +2,6 @@ import { Link, useLoaderData } from "react-router-dom";
 
 export default function BlogPageList() {
   const blogs = useLoaderData();
-  console.log("helol");
 
   return (
     <section>

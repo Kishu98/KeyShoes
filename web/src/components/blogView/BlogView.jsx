@@ -8,7 +8,7 @@ export function BlogView({ blog }) {
 
   return (
     <>
-      <li key={blog.id}>
+      <li>
         <div className='dashBlogListItem'>
           <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
           <section className='dashViewForm'>

@@ -1,5 +1,4 @@
 import { useLoaderData } from "react-router-dom";
-import BlogList from "../BlogList/BlogList";
 import { BlogView } from "../blogView/BlogView";
 
 export default function DashPageList() {
@@ -10,7 +9,7 @@ export default function DashPageList() {
       {blogs ? (
         <ul className='blogs'>
           {blogs.map((blog) => (
-            <BlogView blog={blog} />
+            <BlogView blog={blog} key={blog.id} />
           ))}
         </ul>
       ) : (
