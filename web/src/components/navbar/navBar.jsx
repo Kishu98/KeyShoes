@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./navBar.css";
 
 export default function NavBar() {
@@ -14,13 +14,23 @@ export default function NavBar() {
     <>
       <nav className='navBar'>
         <div className='navLinks'>
-          <Link to='/'>KeyShoe's Blog</Link>
-          <Link to='blogs'>Blogs</Link>
-          <Link>About</Link>
+          <NavLink className='navLink' to='/'>
+            KeyShoe's Blog
+          </NavLink>
+          <NavLink className='navLink' to='blogs'>
+            Blogs
+          </NavLink>
+          <NavLink className='navLink' to='about'>
+            About
+          </NavLink>
           {token && (
             <>
-              <Link to='dashboard'>Dashboard</Link>
-              <Link onClick={handleLogout}>Log Out</Link>
+              <NavLink className='navLink' to='dashboard'>
+                Dashboard
+              </NavLink>
+              <Link className='navLink' onClick={handleLogout}>
+                Log Out
+              </Link>
             </>
           )}
         </div>

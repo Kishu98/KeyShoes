@@ -11,9 +11,18 @@
 .navLinks > :not(:last-child)::after {
   content: "/";
   font-weight: 100;
-  margin: 0 0.5rem;
+  margin: 0 0.3rem;
   text-decoration: none;
   display: inline-block;
   color: var(--c-text-light);
   opacity: 0.5;
+}
+
+.navLink {
+  text-decoration: none;
+}
+
+.navLink.active {
+  color: rgb(131, 131, 131); /* Color for active link */
+  text-decoration: none; /* Remove underline for active link */
 }

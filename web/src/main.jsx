@@ -6,8 +6,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/Homepage/HomePage.jsx";
 import ErrorPage from "./pages/error-page.jsx";
 import BlogForm from "./pages/Create Blog Page/BlogForm.jsx";
-import Blogs from "./pages/Blogs Page/Blogs.jsx";
-import Blog from "./pages/Blog Page/Blog.jsx";
 import UpdateBlogPage from "./pages/Update Blog Page/UpdateBlogPage.jsx";
 import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import { action, loginAction } from "./actions.jsx";
@@ -15,6 +13,8 @@ import { getBlogLoader } from "./loaders/getBlogLoader.jsx";
 import { getBlogsLoader } from "./loaders/getBlogsLoader.jsx";
 import Login from "./pages/Login Page/Login.jsx";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
+import BlogPage from "./pages/Blog Page/BlogPage.jsx";
+import BlogsPage from "./pages/Blogs Page/BlogsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -23,18 +23,18 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/",
+        path: "",
         element: <HomePage />,
         loader: getBlogsLoader,
       },
       {
         path: "blogs",
-        element: <Blogs />,
+        element: <BlogsPage />,
         loader: getBlogsLoader,
       },
       {
         path: "blogs/:id",
-        element: <Blog />,
+        element: <BlogPage />,
         action: action,
         loader: getBlogLoader,
       },

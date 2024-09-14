@@ -1,6 +1,6 @@
-import { Outlet, useLoaderData, useNavigation } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import "./Homepage.css";
-import NavBar from "../../components/navbar/navBar";
+import Blog from "../../components/Blog/Blog";
 
 export default function HomePage() {
   const blogs = useLoaderData();
@@ -8,14 +8,8 @@ export default function HomePage() {
 
   return (
     <>
-      <article className='blogContainer'>
-        <h1>Latest Blog</h1>
-        <header>
-          <h2 className='title'>{blog.title}</h2>
-          <time dateTime={blog.created_at}>{new Date(blog.created_at).toLocaleDateString()}</time>
-        </header>
-        <div className='blogContent' dangerouslySetInnerHTML={{ __html: blog.body }}></div>
-      </article>
+      <h1>Latest Blog</h1>
+      <Blog blog={blog} />
     </>
   );
 }
