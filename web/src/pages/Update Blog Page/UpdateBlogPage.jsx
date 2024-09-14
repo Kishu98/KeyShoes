@@ -12,9 +12,11 @@ export default function UpdateBlogPage() {
   }
 
   return (
-    <>
+    <div className='updateBlogPage'>
       <RichEditor method='PUT' blog={blog} />
-      <button onClick={handleCancel}>Cancel</button>
-    </>
+      <button className='cancelBtn' onClick={handleCancel}>
+        Cancel
+      </button>
+    </div>
   );
 }

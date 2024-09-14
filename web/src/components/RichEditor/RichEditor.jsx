@@ -2,6 +2,7 @@ import { useState } from "react";
 import ReactQuill from "react-quill";
 import { Form } from "react-router-dom";
 import "react-quill/dist/quill.snow.css";
+import "./RichEditor.css";
 
 const modules = {
   toolbar: [
@@ -35,11 +36,28 @@ export default function RichEditor({ method, blog = { title: "", body: "" } }) {
 
   return (
     <Form method={method} className='blogForm'>
-      <label htmlFor='title'>Title</label>
-      <input type='text' id='title' name='title' defaultValue={blog.title} required></input>
-      <ReactQuill defaultValue={blog.body} onChange={handleBodyChange} theme='snow' modules={modules} />
+      <label htmlFor='title' className='blogFormLabel'>
+        Title:
+      </label>
+      <input
+        className='blogFormInput'
+        type='text'
+        id='title'
+        name='title'
+        defaultValue={blog.title}
+        required
+      ></input>
+      <ReactQuill
+        className='quillEditor'
+        defaultValue={blog.body}
+        onChange={handleBodyChange}
+        theme='snow'
+        modules={modules}
+      />
       <input name='body' id='body' value={quillValue} hidden readOnly></input>
-      <button type='submit'>{method === "PUT" ? "Update" : "Post"}</button>
+      <button className='submitBtn' type='submit'>
+        {method === "PUT" ? "Update" : "Post"}
+      </button>
     </Form>
   );
 }

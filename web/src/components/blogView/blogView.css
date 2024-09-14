@@ -5,20 +5,22 @@
   margin-bottom: 5px;
 }
 
-.dashViewForm {
+.dashActionBtns {
   display: flex;
   justify-content: space-around;
   width: 5.5rem;
 }
 
-.deleteBtn {
+.deleteBtn,
+.deleteBtn:hover {
+  color: red;
+  background-color: transparent;
   font-size: 1.5rem;
   padding: 0;
-  display: flex;
 }
 
 .updateBtn {
   font-size: 1.5rem;
-  display: flex;
+  background-color: transparent;
   padding: 0;
 }

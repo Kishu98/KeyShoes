@@ -1,0 +1,16 @@
+header {
+  margin-bottom: 3rem;
+}
+
+.title {
+  margin: 0;
+  /* font-size: 1.8rem; */
+  font-weight: 700;
+}
+
+time {
+  margin: 0;
+  opacity: 0.5;
+  display: block;
+  font-size: 0.9rem;
+}

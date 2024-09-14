@@ -1,5 +1,4 @@
 import { useLoaderData } from "react-router-dom";
-import "./Homepage.css";
 import Blog from "../../components/Blog/Blog";
 
 export default function HomePage() {

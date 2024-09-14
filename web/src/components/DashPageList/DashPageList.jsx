@@ -1,5 +1,6 @@
 import { useLoaderData } from "react-router-dom";
 import { BlogView } from "../blogView/BlogView";
+import "./DashPageList.css";
 
 export default function DashPageList() {
   const blogs = useLoaderData();

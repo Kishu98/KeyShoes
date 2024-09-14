@@ -1,4 +1,5 @@
 import { Link, useLoaderData } from "react-router-dom";
+import "./BlogPageList.css";
 
 export default function BlogPageList() {
   const blogs = useLoaderData();

@@ -11,7 +11,7 @@ export function BlogView({ blog }) {
       <li>
         <div className='dashBlogListItem'>
           <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-          <section className='dashViewForm'>
+          <section className='dashActionBtns'>
             <Form method='delete' action={`${blog.id}`}>
               <button className='deleteBtn' type='submit' aria-label='Delete Blog'>
                 <MdDelete className='deleteIcon' />

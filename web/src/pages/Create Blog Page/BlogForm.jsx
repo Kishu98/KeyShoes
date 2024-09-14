@@ -12,9 +12,11 @@ export default function BlogForm() {
   }
 
   return (
-    <>
+    <div className='createBlogPage'>
       <RichEditor method='POST' />
-      <button onClick={handleCancel}>Cancel</button>
-    </>
+      <button className='cancelBtn' onClick={handleCancel}>
+        Cancel
+      </button>
+    </div>
   );
 }

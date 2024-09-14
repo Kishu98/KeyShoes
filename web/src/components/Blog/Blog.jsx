@@ -1,3 +1,5 @@
+import "./Blog.css";
+
 export default function Blog({ blog }) {
   return (
     <article className='blogContainer'>
