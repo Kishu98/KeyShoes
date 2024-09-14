@@ -16,7 +16,7 @@ func ConnectDB() {
 	log.Println("Trying to connect to the Database")
 
 	if err := godotenv.Load(".env"); err != nil {
-		log.Fatal("Error reading the environment variables")
+		log.Fatalf("Error loading environment variables: %v", err)
 	}
 
 	username := os.Getenv("USERNAME")

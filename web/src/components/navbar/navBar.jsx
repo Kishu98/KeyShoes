@@ -20,7 +20,7 @@ export default function NavBar() {
           {token && (
             <>
               <Link to='dashboard'>Dashboard</Link>
-              <button onClick={handleLogout}>Log Out</button>
+              <Link onClick={handleLogout}>Log Out</Link>
             </>
           )}
         </div>

@@ -5,9 +5,7 @@ import (
 	"blog-site/internals/middleware"
 	"blog-site/internals/models"
 	"encoding/json"
-	"log"
 	"net/http"
-	"os"
 	"strconv"
 )
 
@@ -24,13 +22,24 @@ func HandleBlogs(w http.ResponseWriter, r *http.Request) {
 
 func HandleBlog(w http.ResponseWriter, r *http.Request) {
 	checkEnableCORS(w)
+
+	id, err := getBlogIDFromURL(r)
+	if err != nil {
+		http.Error(w, "Invalid blog id", http.StatusBadRequest)
+		return
+	}
+
 	switch r.Method {
 	case http.MethodPut:
-		middleware.JWTMiddleware(http.HandlerFunc(updateBlogHandler)).ServeHTTP(w, r)
+		middleware.JWTMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			updateBlogHandler(w, r, id)
+		})).ServeHTTP(w, r)
 	case http.MethodGet:
-		getBlogHandler(w, r)
+		getBlogHandler(w, r, id)
 	case http.MethodDelete:
-		middleware.JWTMiddleware(http.HandlerFunc(deleteBlogHandler)).ServeHTTP(w, r)
+		middleware.JWTMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			deleteBlogHandler(w, r, id)
+		})).ServeHTTP(w, r)
 	}
 }
 
@@ -40,59 +49,75 @@ func createBlogHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err := json.NewDecoder(r.Body).Decode(&blog); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
-		os.Exit(1)
+		return
 	}
-	blog = models.CreateBlog(db.GetDB(), blog)
+	blog, err := models.CreateBlog(db.GetDB(), blog)
+	if err != nil {
+		http.Error(w, "Error creating blog post. Please try again.", http.StatusInternalServerError)
+		return
+	}
 
-	// Sending back the new Blog as response
+	// Sending back the new Blog as re sponse
 	jsonResponse(w, http.StatusCreated, blog)
 
 }
 
 // handler function to get all blogs
 func getAllBlogsHandler(w http.ResponseWriter, r *http.Request) {
-	blogs := models.GetAllBlogs(db.GetDB())
+	blogs, err := models.GetAllBlogs(db.GetDB())
+	if err != nil {
+		http.Error(w, "Error retrieving blog posts. Please try again later.", http.StatusNotFound)
+		return
+	}
 
 	jsonResponse(w, http.StatusOK, blogs)
 }
 
 // handler function to update blog
-func updateBlogHandler(w http.ResponseWriter, r *http.Request) {
+func updateBlogHandler(w http.ResponseWriter, r *http.Request, id int) {
 	var blog models.Blog
 
-	json.NewDecoder(r.Body).Decode(&blog)
-
-	id, err := strconv.Atoi(r.URL.Path[len("/blog/"):])
-	if err != nil {
-		log.Fatal(err)
-	}
-	blog = models.UpdateBlog(db.GetDB(), id, blog)
-
-	jsonResponse(w, http.StatusNoContent, blog)
-}
-
-// handler function to get blog by id
-func getBlogHandler(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.Atoi(r.URL.Path[len("/blog/"):])
-	if err != nil {
-		log.Fatal(err)
+	if err := json.NewDecoder(r.Body).Decode(&blog); err != nil {
+		http.Error(w, "Invalid JSON data", http.StatusBadRequest)
+		return
 	}
 
-	blog := models.GetBlog(db.GetDB(), id)
+	blog, err := models.UpdateBlog(db.GetDB(), id, blog)
+	if err != nil {
+		http.Error(w, "Error updating blog post. Please try again later.", http.StatusNotFound)
+		return
+	}
 
 	jsonResponse(w, http.StatusOK, blog)
 }
 
-func deleteBlogHandler(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.Atoi(r.URL.Path[len("/blog/"):])
+// handler function to get blog by id
+func getBlogHandler(w http.ResponseWriter, r *http.Request, id int) {
+
+	blog, err := models.GetBlog(db.GetDB(), id)
 	if err != nil {
-		log.Fatal(err)
+		http.Error(w, "Error retrieving blog. Please try again later.", http.StatusNotFound)
+		return
 	}
 
-	blog := models.GetBlog(db.GetDB(), id)
-	models.DeleteBlog(db.GetDB(), id)
+	jsonResponse(w, http.StatusOK, blog)
+}
 
-	jsonResponse(w, http.StatusNoContent, blog)
+func deleteBlogHandler(w http.ResponseWriter, r *http.Request, id int) {
+
+	blog, err := models.GetBlog(db.GetDB(), id)
+	if err != nil {
+		http.Error(w, "Error retrieving blog to delete. Please try again later.", http.StatusNotFound)
+		return
+	}
+
+	err = models.DeleteBlog(db.GetDB(), id)
+	if err != nil {
+		http.Error(w, "Error deleting blog. Please try again later.", http.StatusInternalServerError)
+		return
+	}
+
+	jsonResponse(w, http.StatusOK, blog)
 }
 
 func jsonResponse(w http.ResponseWriter, statusCode int, data any) {
@@ -108,4 +133,8 @@ func checkEnableCORS(w http.ResponseWriter) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+}
+
+func getBlogIDFromURL(r *http.Request) (int, error) {
+	return strconv.Atoi(r.URL.Path[len("/blog/"):])
 }
