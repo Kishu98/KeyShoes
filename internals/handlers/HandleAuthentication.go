@@ -36,6 +36,9 @@ func HandleAuth(w http.ResponseWriter, r *http.Request) {
 
 func HandleSignup(w http.ResponseWriter, r *http.Request) {
 	checkEnableCORS(w)
+	if r.Method == http.MethodOptions {
+		return
+	}
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid Request!", http.StatusMethodNotAllowed)
 		return

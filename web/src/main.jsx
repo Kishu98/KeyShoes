@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, createHashRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/Homepage/HomePage.jsx";
 import ErrorPage from "./pages/error-page.jsx";
 import BlogForm from "./pages/Create Blog Page/BlogForm.jsx";
@@ -17,7 +17,7 @@ import BlogPage from "./pages/Blog Page/BlogPage.jsx";
 import BlogsPage from "./pages/Blogs Page/BlogsPage.jsx";
 import getTokenLoader from "./loaders/getTokenLoader.jsx";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <App />,

@@ -14,7 +14,10 @@ import (
 
 func main() {
 	// Connecting to the database
-	db.ConnectDB()
+	err := db.ConnectDB()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 
 	// Creating a new HTTP server
 	srv := &http.Server{

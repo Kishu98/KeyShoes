@@ -5,38 +5,50 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
-	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
 var db *sql.DB
 
-func ConnectDB() {
+func ConnectDB() error {
 	log.Println("Trying to connect to the Database")
 
-	if err := godotenv.Load(".env"); err != nil {
-		log.Printf("Error loading environment variables: %v", err)
+	db_url := os.Getenv("DATABASE_URL")
+	if db_url == "" {
+		return fmt.Errorf("Database_URL environment variable is not set")
 	}
 
-	username := os.Getenv("USERNAME")
-	password := os.Getenv("PASSWORD")
-	dbname := os.Getenv("DATABASE_NAME")
-
-	psqlInfo := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", username, password, dbname)
 	var err error
-	db, err = sql.Open("postgres", psqlInfo)
+	db, err = sql.Open("postgres", db_url)
 	if err != nil {
-		log.Fatal("Not able to access the database", err)
+		log.Fatal("Not able to open database connection", err)
 	}
 	// defer db.Close()
 
+	db.SetMaxOpenConns(25)
+	db.SetConnMaxLifetime(5)
+	db.SetConnMaxLifetime(5 * time.Minute)
+
 	// Ping to check the connection
-	if err := db.Ping(); err != nil {
-		log.Fatal("Not able to connect to the database", err)
+	retries := 5
+	for retries > 0 {
+		err = db.Ping()
+		if err == nil {
+			break
+		}
+		log.Printf("Database ping failed, retrying... (%d retries left)", retries)
+		time.Sleep(2 * time.Second)
+		retries--
 	}
 
-	log.Println("Connected to the Database", dbname)
+	if err != nil {
+		return fmt.Errorf("could not connect to the database after retries: %w", err)
+	}
+
+	log.Println("Successfully connected to the Database")
+	return nil
 }
 
 func GetDB() *sql.DB {
