@@ -15,12 +15,14 @@ import Login from "./pages/Login Page/Login.jsx";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
 import BlogPage from "./pages/Blog Page/BlogPage.jsx";
 import BlogsPage from "./pages/Blogs Page/BlogsPage.jsx";
+import getTokenLoader from "./loaders/getTokenLoader.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
+    loader: getTokenLoader,
     children: [
       {
         path: "",

@@ -1,9 +1,9 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLoaderData, useNavigate } from "react-router-dom";
 import "./navBar.css";
 
 export default function NavBar() {
-  const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const token = useLoaderData();
 
   function handleLogout() {
     localStorage.removeItem("token");
