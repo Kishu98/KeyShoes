@@ -8,10 +8,8 @@ import (
 )
 
 func HandleAuth(w http.ResponseWriter, r *http.Request) {
-	checkEnableCORS(w)
-	if r.Method == http.MethodOptions {
-		return
-	}
+	checkEnableCORS(w, r)
+
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request!", http.StatusMethodNotAllowed)
 		return
@@ -35,10 +33,8 @@ func HandleAuth(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleSignup(w http.ResponseWriter, r *http.Request) {
-	checkEnableCORS(w)
-	if r.Method == http.MethodOptions {
-		return
-	}
+	checkEnableCORS(w, r)
+
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid Request!", http.StatusMethodNotAllowed)
 		return

@@ -1,5 +1,3 @@
-import { redirect } from "react-router-dom";
-
 export default function getTokenLoader() {
   const token = localStorage.getItem("token");
 

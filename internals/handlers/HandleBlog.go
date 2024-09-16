@@ -11,7 +11,7 @@ import (
 
 // Main handler function
 func HandleBlogs(w http.ResponseWriter, r *http.Request) {
-	checkEnableCORS(w)
+	checkEnableCORS(w, r)
 	switch r.Method {
 	case http.MethodPost:
 		middleware.JWTMiddleware(http.HandlerFunc(createBlogHandler)).ServeHTTP(w, r)
@@ -21,7 +21,7 @@ func HandleBlogs(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleBlog(w http.ResponseWriter, r *http.Request) {
-	checkEnableCORS(w)
+	checkEnableCORS(w, r)
 
 	id, err := getBlogIDFromURL(r)
 	if err != nil {
@@ -129,10 +129,15 @@ func jsonResponse(w http.ResponseWriter, statusCode int, data any) {
 	}
 }
 
-func checkEnableCORS(w http.ResponseWriter) {
+func checkEnableCORS(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusNoContent)
+		return
+	}
 }
 
 func getBlogIDFromURL(r *http.Request) (int, error) {
