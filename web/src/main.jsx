@@ -17,7 +17,7 @@ import BlogPage from "./pages/Blog Page/BlogPage.jsx";
 import BlogsPage from "./pages/Blogs Page/BlogsPage.jsx";
 import getTokenLoader from "./loaders/getTokenLoader.jsx";
 
-const router = createHashRouter([
+const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,

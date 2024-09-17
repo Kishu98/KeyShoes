@@ -16,7 +16,7 @@ func HandleBlogs(w http.ResponseWriter, r *http.Request) {
 	case http.MethodPost:
 		middleware.JWTMiddleware(http.HandlerFunc(createBlogHandler)).ServeHTTP(w, r)
 	case http.MethodGet:
-		getAllBlogsHandler(w, r)
+		getAllBlogsHandler(w)
 	}
 }
 
@@ -35,10 +35,10 @@ func HandleBlog(w http.ResponseWriter, r *http.Request) {
 			updateBlogHandler(w, r, id)
 		})).ServeHTTP(w, r)
 	case http.MethodGet:
-		getBlogHandler(w, r, id)
+		getBlogHandler(w, id)
 	case http.MethodDelete:
 		middleware.JWTMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			deleteBlogHandler(w, r, id)
+			deleteBlogHandler(w, id)
 		})).ServeHTTP(w, r)
 	}
 }
@@ -63,7 +63,7 @@ func createBlogHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // handler function to get all blogs
-func getAllBlogsHandler(w http.ResponseWriter, r *http.Request) {
+func getAllBlogsHandler(w http.ResponseWriter) {
 	blogs, err := models.GetAllBlogs(db.GetDB())
 	if err != nil {
 		http.Error(w, "Error retrieving blog posts. Please try again later.", http.StatusNotFound)
@@ -92,7 +92,7 @@ func updateBlogHandler(w http.ResponseWriter, r *http.Request, id int) {
 }
 
 // handler function to get blog by id
-func getBlogHandler(w http.ResponseWriter, r *http.Request, id int) {
+func getBlogHandler(w http.ResponseWriter, id int) {
 
 	blog, err := models.GetBlog(db.GetDB(), id)
 	if err != nil {
@@ -103,7 +103,7 @@ func getBlogHandler(w http.ResponseWriter, r *http.Request, id int) {
 	jsonResponse(w, http.StatusOK, blog)
 }
 
-func deleteBlogHandler(w http.ResponseWriter, r *http.Request, id int) {
+func deleteBlogHandler(w http.ResponseWriter, id int) {
 
 	blog, err := models.GetBlog(db.GetDB(), id)
 	if err != nil {
@@ -130,7 +130,7 @@ func jsonResponse(w http.ResponseWriter, statusCode int, data any) {
 }
 
 func checkEnableCORS(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:8081")
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 
