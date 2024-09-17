@@ -16,6 +16,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
 import BlogPage from "./pages/Blog Page/BlogPage.jsx";
 import BlogsPage from "./pages/Blogs Page/BlogsPage.jsx";
 import getTokenLoader from "./loaders/getTokenLoader.jsx";
+import About from "./pages/About Page/about.jsx";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
         element: <BlogPage />,
         action: action,
         loader: getBlogLoader,
+      },
+      {
+        path: "/about",
+        element: <About />,
       },
       {
         path: "dashboard",

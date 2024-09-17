@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"os"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -15,7 +14,7 @@ var db *sql.DB
 func ConnectDB() error {
 	log.Println("Trying to connect to the Database")
 
-	db_url := os.Getenv("DATABASE_URL")
+	db_url := "postgres://kishu:kishu@localhost:5432/blogdb?sslmode=disable"
 	if db_url == "" {
 		return fmt.Errorf("Database_URL environment variable is not set")
 	}
