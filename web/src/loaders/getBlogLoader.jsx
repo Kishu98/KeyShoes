@@ -1,5 +1,6 @@
 export async function getBlogLoader({ params }) {
-  const res = await fetch(`http://localhost:8080/blog/${params.id}`);
+  const backend = import.meta.env.VITE_BACKEND;
+  const res = await fetch(`${backend}/blog/${params.id}`);
   if (res.ok) {
     const blog = await res.json();
     return blog;

@@ -6,6 +6,7 @@ import (
 	"blog-site/internals/models"
 	"encoding/json"
 	"net/http"
+	"os"
 	"strconv"
 )
 
@@ -130,7 +131,8 @@ func jsonResponse(w http.ResponseWriter, statusCode int, data any) {
 }
 
 func checkEnableCORS(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
+	react_url := os.Getenv("REACT_URL")
+	w.Header().Set("Access-Control-Allow-Origin", react_url)
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 

@@ -1,5 +1,7 @@
 import { redirect } from "react-router-dom";
 
+const backend = import.meta.env.VITE_BACKEND;
+
 export async function action({ request, params }) {
   const token = localStorage.getItem("token");
 
@@ -8,7 +10,7 @@ export async function action({ request, params }) {
       let formData = await request.formData();
       let title = formData.get("title");
       let body = formData.get("body");
-      await fetch(`http://localhost:8080/blog`, {
+      await fetch(`${backend}/blog`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,7 +25,7 @@ export async function action({ request, params }) {
       let formData = await request.formData();
       let title = formData.get("title");
       let body = formData.get("body");
-      await fetch(`http://localhost:8080/blog/${params.id}`, {
+      await fetch(`${backend}/blog/${params.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "appication/json",
@@ -36,7 +38,7 @@ export async function action({ request, params }) {
     }
 
     case "DELETE": {
-      await fetch(`http://localhost:8080/blog/${params.id}`, {
+      await fetch(`${backend}/blog/${params.id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -52,7 +54,7 @@ export async function loginAction({ request }) {
   let formData = await request.formData();
   let username = formData.get("username");
   let password = formData.get("password");
-  const res = await fetch("http://localhost:8080/login", {
+  const res = await fetch(`${backend}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

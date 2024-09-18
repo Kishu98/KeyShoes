@@ -1,8 +1,11 @@
 services:
   frontend:
+    # image: kishu98/keyshoes-frontend:v1
     build:
       context: ./web
       dockerfile: dockerfile
+    environment:
+      - VITE_BACKEND=${VITE_BACKEND}
     ports:
       - 8081:8081
     depends_on:
@@ -11,11 +14,14 @@ services:
       - app_network
 
   backend:
+    # image: kishu98/keyshoes-backend:v1
     build:
       context: .
       dockerfile: dockerfile
     environment:
-      - DATABASE_URL=postgres://kishu:kishu@db:5432/blogdb?sslmode=disable
+      - DATABASE_URL=${DATABASE_URL}
+      - SECRET_KEY=${SECRET_KEY}
+      - REACT_URL=${REACT_URL}
     ports:
       - 8080:8080
     depends_on:
@@ -24,11 +30,11 @@ services:
       - app_network
 
   db:
-    image: postgres:16
+    image: kishu98/keyshoes-db:v1
     environment:
-      POSTGRES_USER: kishu
-      POSTGRES_PASSWORD: kishu
-      POSTGRES_DB: blogdb
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - db_data:/var/lib/postgresql/data
       - ./migrations:/docker-entrypoint-initdb.d

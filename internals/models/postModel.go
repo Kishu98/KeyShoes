@@ -29,7 +29,7 @@ func CreateBlog(db *sql.DB, blog Blog) (Blog, error) {
 func GetAllBlogs(db *sql.DB) ([]Blog, error) {
 	log.Println("Fetching all blogs")
 
-	rows, err := db.Query("SELECT * FROM posts")
+	rows, err := db.Query("SELECT * FROM posts ORDER BY created_at ASC")
 	if err != nil {
 		return nil, err
 	}

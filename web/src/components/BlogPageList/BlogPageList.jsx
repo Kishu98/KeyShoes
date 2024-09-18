@@ -1,5 +1,6 @@
 import { Link, useLoaderData } from "react-router-dom";
 import "./BlogPageList.css";
+import Time from "../time";
 
 export default function BlogPageList() {
   const blogs = useLoaderData();
@@ -20,7 +21,7 @@ function BlogList({ blogs }) {
       {blogs.map((blog) => (
         <li key={blog.id}>
           <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-          <time className='time'>{new Date(blog.created_at).toLocaleDateString()}</time>
+          <Time blog={blog} />
         </li>
       ))}
     </ul>

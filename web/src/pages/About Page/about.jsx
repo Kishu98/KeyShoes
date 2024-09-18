@@ -2,7 +2,7 @@ export default function About() {
   return (
     <>
       <header>
-        <img src='../public/profile-2.jpg' width={300}></img>
+        <img src='./profile-2.jpg' width={300}></img>
       </header>
       <h1>About</h1>
       <p>Hello, I'm Kishu Jain</p>
