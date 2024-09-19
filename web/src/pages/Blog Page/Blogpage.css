@@ -1,0 +1,10 @@
+.blogpage {
+  max-width: 32rem;
+  margin: auto;
+}
+
+@media (max-width: 768px) {
+  .blogpage {
+    padding: 1rem;
+  }
+}

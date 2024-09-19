@@ -1,6 +1,8 @@
+import "./about.css";
+
 export default function About() {
   return (
-    <>
+    <div className='aboutpage'>
       <header>
         <img src='./profile-2.jpg' width={300}></img>
       </header>
@@ -11,6 +13,6 @@ export default function About() {
         head.
       </p>
       <p>KeyShoes will be the place for exactly that.</p>
-    </>
+    </div>
   );
 }

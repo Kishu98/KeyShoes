@@ -14,9 +14,11 @@ export default function NavBar() {
     <>
       <nav className='navBar'>
         <div className='navLinks'>
-          <NavLink className='navLink' to='/'>
-            KeyShoe's Blog
-          </NavLink>
+          <div className='keyshoes'>
+            <NavLink className='navLink' to='/'>
+              KeyShoe's Blog
+            </NavLink>
+          </div>
           <NavLink className='navLink' to='blogs'>
             Blogs
           </NavLink>

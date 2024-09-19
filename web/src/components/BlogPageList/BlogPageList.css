@@ -11,3 +11,9 @@
 .time {
   font-size: 0.9rem;
 }
+
+@media (max-width: 768px) {
+  .bloglist > li {
+    display: block;
+  }
+}

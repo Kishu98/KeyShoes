@@ -1,0 +1,10 @@
+.aboutpage {
+  max-width: 32rem;
+  margin: auto;
+}
+
+@media (max-width: 768px) {
+  .aboutpage {
+    padding: 1rem;
+  }
+}

@@ -1,0 +1,10 @@
+.blogpagelist {
+  max-width: 32rem;
+  margin: auto;
+}
+
+@media (max-width: 768px) {
+  .blogpagelist {
+    padding: 1rem;
+  }
+}

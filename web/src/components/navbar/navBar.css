@@ -1,11 +1,11 @@
 .navBar {
-  padding: 30px 0;
-  margin-bottom: 60px;
-}
+  /* display: flex; */
 
-.logo {
-  display: flex;
-  justify-content: flex-start;
+  max-width: 32rem;
+
+  margin: auto;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
 }
 
 .navLinks > :not(:last-child)::after {
@@ -18,11 +18,27 @@
   opacity: 0.5;
 }
 
-.navLink {
-  text-decoration: none;
+.keyshoes {
+  display: inline;
 }
 
 .navLink.active {
   color: rgb(131, 131, 131); /* Color for active link */
-  text-decoration: none; /* Remove underline for active link */
+  text-decoration: none; /*Remove underline for active link */
+}
+
+@media (max-width: 768px) {
+  .navBar {
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    padding: 0 1rem;
+  }
+
+  .keyshoes {
+    display: block;
+  }
+
+  .navLinks :first-child::after {
+    content: "";
+  }
 }

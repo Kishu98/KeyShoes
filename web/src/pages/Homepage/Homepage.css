@@ -1,0 +1,10 @@
+.homepage {
+  margin: auto;
+  max-width: 32rem;
+}
+
+@media (max-width: 768px) {
+  .homepage {
+    padding: 1rem;
+  }
+}

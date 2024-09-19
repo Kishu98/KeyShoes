@@ -6,7 +6,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   return (
-    <>
+    <div className='dashpage'>
       <section className='dashHead'>
         <h1>Dashboard</h1>
         <button className='createBtn' onClick={() => navigate("create")}>
@@ -14,6 +14,6 @@ export default function Dashboard() {
         </button>
       </section>
       <DashPageList />
-    </>
+    </div>
   );
 }

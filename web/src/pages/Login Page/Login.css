@@ -43,3 +43,14 @@
 .loginBtn:hover {
   background-color: #0056b3;
 }
+
+.loginpage {
+  max-width: 32rem;
+  margin: auto;
+}
+
+@media (max-width: 768px) {
+  .loginpage {
+    padding: 1rem;
+  }
+}

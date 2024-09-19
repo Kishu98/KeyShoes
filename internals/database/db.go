@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
@@ -14,6 +15,8 @@ var db *sql.DB
 
 func ConnectDB() error {
 	log.Println("Trying to connect to the Database")
+
+	godotenv.Load(".env")
 
 	db_url := os.Getenv("DATABASE_URL")
 	if db_url == "" {
