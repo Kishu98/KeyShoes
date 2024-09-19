@@ -1,6 +1,6 @@
 import { redirect } from "react-router-dom";
 
-const backend = import.meta.env.VITE_BACKEND;
+const backend = import.meta.env.VITE_BACKEND_URL;
 
 export async function action({ request, params }) {
   const token = localStorage.getItem("token");

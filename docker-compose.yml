@@ -4,8 +4,6 @@ services:
     build:
       context: ./web
       dockerfile: dockerfile
-    environment:
-      - VITE_BACKEND=${VITE_BACKEND}
     ports:
       - 8081:8081
     depends_on:

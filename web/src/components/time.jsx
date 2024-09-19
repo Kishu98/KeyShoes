@@ -1,6 +1,6 @@
 export default function Time({ blog }) {
   const formattedDate = new Date(blog.created_at).toLocaleDateString("en-UK", {
-    timeZone: "UTC",
+    timeZone: "ASIA/kolkata",
     year: "numeric",
     month: "numeric",
     day: "numeric",
