@@ -4,7 +4,7 @@ export default function About() {
   return (
     <div className='aboutpage'>
       <header>
-        <img src='./profile-2.jpg' width={300}></img>
+        <img src='/profile.jpg' width={300}></img>
       </header>
       <h1>About</h1>
       <p>Hello, I'm Kishu Jain</p>
