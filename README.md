@@ -10,13 +10,13 @@ To run this project, you will need to add the following environment variables to
 
 .env file in cmd folder:
 
-`DATABASE_URL` :"postgres://[username]:[password]@[host]:[port]/[dbname]?sslmode=disable”
+`DATABASE_URL="postgres://[username]:[password]@[host]:[port]/[dbname]?sslmode=disable”`
 
-`REACT_URL` :http://localhost:5173
+`REACT_URL=http://localhost:5173`
 
 .env file in web folder:
 
-`VITE_BACKEND_URL` :http://localhost:8080
+`VITE_BACKEND_URL=http://localhost:8080`
 
 ## Features
 
